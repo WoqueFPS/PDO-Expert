@@ -1,5 +1,5 @@
 <?php
-require_once '../includes/database.php';
+require_once '../includes/db.php';
 
 
 ?>
@@ -12,12 +12,14 @@ require_once '../includes/database.php';
 </head>
 <body>
     <form action="" method="POST">
-        <input type="text" name="productNummer" placeholder="Product Nummer" required>
-        <input type="text" name="productNaam" placeholder="Product Naam" required>
+        <input type="number" name="productId" placeholder="productId" required>
         <input type="number" step="0.01" name="prijs" placeholder="Prijs" required>
         <input type="text" name="beschrijving" placeholder="Beschrijving" required>
-        <input type="text" name="category" placeholder="Categorie" required>
         <input type="submit" name="knop" value="Toevoegen">
     </form>
-</body>
+    <form action="upload.php" method="POST" enctype="multipart/form-data">
+        <label for="fileToUpload">Select image to upload:</label>
+        <input type="file" name="fileToUpload" id="fileToUpload">
+        <input type="submit" value="Upload Image" name="submit">
+    </form>
 </html>
