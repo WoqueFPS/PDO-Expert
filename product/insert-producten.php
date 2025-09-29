@@ -1,30 +1,22 @@
 <?php
 require_once '../includes/product-class.php';
 
-$message = "";
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
     $omschrijving = $_POST['omschrijving'];
-    $prijsPerStuk = $_POST['prijsPerStuk'];
+    $prijs = $_POST['prijs'];
 
-    $uploadDir = "uploads/";
-    if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
-    }
-    $fotoNaam = basename($FILES["foto"]["name"]);
-    $uploadFile = $uploadDir . uniqid() . "" . $fotoNaam;
+    $filename = $_FILES['file']['name'];
+    $location = "upload/" . $filename;
 
-    if (move_uploaded_file($_FILES["foto"]["tmp_name"], $uploadFile)) {
+    if (move_uploaded_file($_FILES['file']['tmp_name'], $location)) {
         $product = new Product();
-        $result = $product->insertProduct($omschrijving, $uploadFile, $prijsPerStuk);
-
-        if ($result === true) {
-            $message = "Product succesvol toegevoegd.";
+        if ($product->insertProduct($omschrijving, $location, $prijs)) {
+            echo "Product succesvol toegevoegd.";
         } else {
-            $message = $result;
+            echo "Fout bij toevoegen product.";
         }
     } else {
-        $message = "Fout bij uploaden van de foto.";
+        echo "Fout bij uploaden van de foto.";
     }
 }
 ?>

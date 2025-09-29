@@ -1,26 +1,23 @@
 <?php
-require_once 'db.php';
+
+require "db.php";
 
 class Product {
-    private $pdo;
+    private $dbh;
 
     public function __construct() {
-        $this->pdo = new DB();
+        $this->dbh = new DB();
     }
 
-    public function insertProduct($omschrijving, $foto, $prijsPerStuk) {
-        $sql = "INSERT INTO product (omschrijving, foto, prijsPerStuk) 
-                VALUES (:omschrijving, :foto, :prijsPerStuk)";
-        try {
-            $this->pdo->run($sql, [
-                'omschrijving' => $omschrijving,
-                'foto' => $foto,
-                'prijsPerStuk' => $prijsPerStuk
-            ]);
-            return true;
-        } catch (PDOException $e) {
-            return "Fout bij toevoegen product: " . $e->getMessage();
-        }
-    }
+public function insertProduct($omschrijving, $foto, $prijs) {
+    $sql = "INSERT INTO product (omschrijving, foto, prijsPerStuk) 
+            VALUES (:omschrijving, :foto, :prijs)";
+    return $this->dbh->run($sql, [":omschrijving" => $omschrijving,":foto" => $foto,":prijs" => $prijs]);
+}
+
+public function getAllProducts() {
+    $sql = "SELECT productId AS id, omschrijving, foto, prijsPerStuk FROM product";
+    return $this->dbh->run($sql)->fetchAll(PDO::FETCH_ASSOC);
+}
 }
 ?>

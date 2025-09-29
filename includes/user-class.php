@@ -10,7 +10,7 @@ class User {
 
     public function register(String $name, String $password, String $email) {
         $hashPwd = password_hash($password, PASSWORD_DEFAULT);
-        $this->pdo->run("INSERT INTO users (name, password, email) VALUES (:name, :password, :email)", ["name" => $name, "password" => $hashPwd, "email" => $email]);
+        $this->pdo->run("INSERT INTO users (naam, password, email) VALUES (:naam, :password, :email)", ["naam" => $name, "password" => $hashPwd, "email" => $email]);
     }
 
     public function loginUser($email, $password) {
